@@ -1,0 +1,14 @@
+<?php
+return array(
+    'zenddevelopertools' => array(
+        'toolbar' => array(
+            /**
+             * Enables or disables the Template Hint.
+             *
+             * Expects: bool
+             * Default: false
+             */
+            'template_hint' => true,
+        ),
+    ),
+);

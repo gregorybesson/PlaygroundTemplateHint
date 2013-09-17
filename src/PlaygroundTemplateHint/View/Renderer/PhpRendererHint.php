@@ -22,7 +22,7 @@ class PhpRendererHint implements \Zend\View\Renderer\RendererInterface, \Zend\Vi
     private $__content = '';
 
     private $__session = null;
-    
+
     /**
      * @var bool Whether or not to render trees of view models
      */
@@ -149,7 +149,7 @@ class PhpRendererHint implements \Zend\View\Renderer\RendererInterface, \Zend\Vi
         }
 
         if (null !== $name) {
-        	$viewPath = $this->__templateResolver->resolve($name, $this); 
+        	$viewPath = $this->__templateResolver->resolve($name, $this);
         	//echo $viewPath. "<br>";
             return $this->__templateResolver->resolve($name, $this);
         }
@@ -445,12 +445,12 @@ class PhpRendererHint implements \Zend\View\Renderer\RendererInterface, \Zend\Vi
 
         while ($this->__template = array_pop($this->__templates)) {
             $this->__file = $this->resolver($this->__template);
-            
+
             $templates = $this->__session->offsetGet('templateHint');
-            
+
             $templates[$this->__template] = $this->__file;
             $this->__session->offsetSet('templateHint',  $templates);
-            
+
             //echo $this->__file . "<br>";
             //echo $this->__template . "<br>";
             if (!$this->__file) {
@@ -464,12 +464,12 @@ class PhpRendererHint implements \Zend\View\Renderer\RendererInterface, \Zend\Vi
                 ob_start();
                 //echo "<div style='background-color:#" . $color[$i]  . ";border: 1px solid black;' >";
                 //echo   "<a href='#' title = '". $this->__file ."'>></a><br/>";
-                echo "<!--template-hint-->";
+                echo "<!--template-hint|".$this->__template . " - " . $this->__file . "-->";
                 include $this->__file;
                 //echo "</div>";
                 echo "<!--/template-hint-->";
                 $this->__content = ob_get_clean();
-                
+
             } catch (\Exception $ex) {
                 ob_end_clean();
                 throw $ex;
@@ -529,13 +529,13 @@ class PhpRendererHint implements \Zend\View\Renderer\RendererInterface, \Zend\Vi
     {
         $this->__vars = clone $this->vars();
     }
-    
+
     public function getTemplate(){
     	return $this->__template;
     }
-    
+
     /*
-     
+
 var tmpHint = 0;
 function ColorLuminance(hex, lum) {
 
@@ -557,7 +557,7 @@ function ColorLuminance(hex, lum) {
 	return rgb;
 };
 $("button").click(function () {
-    
+
     var i = 1, tmpHint=false;
 	$('*')
 	.contents()
@@ -573,9 +573,9 @@ $("button").click(function () {
 
 	});
 });
-     
-     
-     
+
+
+
      #selector-top, #selector-bottom {
 background: black;
 height:5px;
@@ -629,10 +629,10 @@ $(document).mousemove(function(event) {
 			toto = toto - 1;
 		}
 
-	});        
-        
+	});
+
     console.log(targetOffset);
-    
+
     elements.top.css({
         left:  (targetOffset.left - 4),
         top:   (targetOffset.top - 4),
@@ -653,10 +653,9 @@ $(document).mousemove(function(event) {
         top:    (targetOffset.top  - 4),
         height: (targetHeight + 8)
     });
-    
+
 });
 */
 
 }
 
-	

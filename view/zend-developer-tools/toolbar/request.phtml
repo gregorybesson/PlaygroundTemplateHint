@@ -9,7 +9,7 @@ $templates = $this->report->getCollector('template_hint')->getTemplates();
         <img src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAA0JJREFUOMudVEFoI1UY/t4kk2yUylZlFNuaDduw2A2IiCD0WgQPqVUsewgt6kXQXEpPnoqnii3tJeAacVdahNLSiyClttCSgdimCZWCuOykk5mNEtYsNGYmTCaZ934vWai4ibXf6f3vfXx8//++9xi6QNO0d0Oh0LoQouW67s1oNGrgApDOF4ZhfGea5hQAnJ2dRTjnPtd1n2o0Gi8BgGmaXxiG8WUvQfZ4USqV7vp8vg+EEGCMnTLGrneOCAAjIgPANQAQQnwSiUS+6uqwv79fSqVST3POCQCI6HogEIBt2+S6LvP5fCCia0QEy7L48vLyMxdp/4qqqm3DMEjXdZFMJu8DSEuStLqwsPDANE0yTZN2d3dNAL6eSsVi8X1N05K6rlO5XKbZ2dmfAQyco9xcXFy8XyqVSNd1R9O0j4rF4uSTtPydmawRESMiVKtVpFKpWwD+OMf7tVKpfFqv138KhUJBAN8QEQHYeKKgZVlMlmUWCAQgyzKazebvjLF/EKempiqSJEEIwZrNJjjn6OpwYmLie0VRXlhbW3srGAwin89/C+DD80TO+bIsy3Acx0skEj82Gg2rZ2wAYHt7mw8ODkpEBCL6mohuA5AZY58DeFuSJOi6Xo7H4y//Zw5PTk6WOOczjDF0WgOAdudGpcd7RNSWZfnjWCx2t9dLkVRVDQshUKvV2rlc7qFt24Jz7uecs1qtxo+Ojv50HIc3m03f1tbWiwBQKBQCvdITmZyc/CUej98G8NrMzMydg4MDoaoqjY2NfQbg9enp6d3x8fEdAFcBIJfL3Ts+Ppa6zhDAFQAyAGtlZWU6HA7fcV0X1Wr1lUQioQF4fmNj4+rAwEBGkqQMY+wWEW0KId4kondGR0cLrJvdoaGhG4yx9wB4RJQul8t/AUA0Gn1uaWnpkaIoOD09dSORSLBer2Nzc3MknU7/hv+LTCZD2WyW5ufnKwCSc3NzejabpUwm4/3r+7oIdnZ2XNu2xfDwsENEP8RisbrjOLS/v29dStC27Tc8z2OKokT29vbuKYryqud58Pv9E5cSbLVarXw+/2h1dTXX19cXWl9fLxweHj6s1WptXBJ+ADcAPDsyMmIwxsKdOggAfwOpZLGNo7pH7AAAAABJRU5ErkJggg==" alt="Request and Response">
         <span class="zdt-toolbar-info">
             <span class="zdt-toolbar-bold zdt-toolbar-color-<?php echo $color; ?> zdt-toolbar-spacing">
-                <?php echo $this->collector->getStatusCode(); ?> </span><button id="templateHint">yo</button>
+                <?php echo $this->collector->getStatusCode(); ?> </span><button id="templateHint">Hint</button>
             <span class="zdt-toolbar-extra-info">
                 <abbr title="<?php echo $this->collector->getFullControllerName(false); ?>">
                     <?php echo $this->collector->getFullControllerName(); ?>
@@ -76,21 +76,32 @@ function ColorLuminance(hex, lum) {
 	return rgb;
 };
 $( document ).ready(function() {
+	var templateHintActive = false;
     $("#templateHint").click(function () {
-        
-        var i = 1, tmpHint=false;
+        var i = 1, active, templateHint;
+
+        templateHintActive = !templateHintActive;
+
     	$('*')
     	.contents()
     	.each(function(){
-    		if (this.nodeType === 8 && this.nodeValue == 'template-hint'){
-                tmpHint = true
+    		if (this.nodeType === 8 && this.nodeValue.match(/^template-hint/)){
+                tmpHint = true;
+                templateHint = this.nodeValue;
+
     		} else if(tmpHint && this.nodeType ==1){
-    			$(this).css('background-color', ColorLuminance("#69c", i));
+        		if (templateHintActive){
+        			$(this).css('background', ColorLuminance("#69c", i)).attr('title', templateHint);
+        		} else {
+        			$(this).removeAttr('style').removeAttr('title');
+        		}
+
     		}else if(this.nodeType === 8 && this.nodeValue == '/template-hint'){
     			tmpHint = false;
+    			templateHint = '';
                 i=i/2;
     		}
-    
+
     	});
     });
 });

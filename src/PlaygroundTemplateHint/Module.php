@@ -21,6 +21,20 @@ class Module
         $serviceManager = $e->getApplication()->getServiceManager();
         $config = $e->getApplication()->getServiceManager()->get('config');
         
+        $translator = $serviceManager->get('translator');
+        $options = $serviceManager->get('playgroundcore_module_options');
+        $locale = $options->getLocale();
+        if (!empty($locale)) {
+            //translator
+            $translator->setLocale($locale);
+
+            // plugins
+            $translate = $serviceManager->get('viewhelpermanager')->get('translate');
+            $translate->getTranslator()->setLocale($locale);
+            
+        }
+        AbstractValidator::setDefaultTranslator($translator,'playgroundcore');
+        
         /**
          * HintStrategy activated only when developer toolbar is on and templateHint is on
          */

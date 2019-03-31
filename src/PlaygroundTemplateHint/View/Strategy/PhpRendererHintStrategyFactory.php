@@ -1,14 +1,15 @@
 <?php
 namespace PlaygroundTemplateHint\View\Strategy;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class PhpRendererHintStrategyFactory implements FactoryInterface
 {
-	public function createService(ServiceLocatorInterface $serviceLocator)
-	{
-		$viewRenderer = $serviceLocator->get('PhpRendererHint');
-		return new PhpRendererHintStrategy($viewRenderer);
-	}
+    public function __invoke(ContainerInterface $container, $requestedName, $options = null)
+    {
+        $viewRenderer = $container->get('PhpRendererHint');
+        
+        return new PhpRendererHintStrategy($viewRenderer);
+    }
 }

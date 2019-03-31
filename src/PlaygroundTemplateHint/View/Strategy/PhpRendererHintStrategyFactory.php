@@ -6,10 +6,10 @@ use Interop\Container\ContainerInterface;
 
 class PhpRendererHintStrategyFactory implements FactoryInterface
 {
-	public function __invoke(ContainerInterface $container, $requestedName, $options = NULL)
+    public function __invoke(ContainerInterface $container, $requestedName, $options = null)
     {
-        $viewRenderer = new PhpRendererHintStrategy($container);
-
-        return $viewRenderer;
+        $viewRenderer = $container->get('PhpRendererHint');
+        
+        return new PhpRendererHintStrategy($viewRenderer);
     }
 }

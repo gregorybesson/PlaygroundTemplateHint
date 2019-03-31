@@ -2,7 +2,6 @@
 
 namespace PlaygroundTemplateHint\View\Strategy;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 use PlaygroundTemplateHint\View\Renderer\PhpRendererHint;
@@ -11,14 +10,13 @@ use Zend\View\ViewEvent;
 class PhpRendererHintStrategy extends \Zend\View\Strategy\PhpRendererStrategy
 {
     /**
+     * Constructor
      *
-     * @var ServiceManager
+     * @param  PhpRenderer $renderer
      */
-    protected $serviceLocator;
-
-    public function __construct(ServiceLocatorInterface $locator)
+    public function __construct(PhpRendererHint $renderer)
     {
-        $this->renderer = $locator->get('PhpRendererHint');
+        $this->renderer = $renderer;
     }
 
     /**

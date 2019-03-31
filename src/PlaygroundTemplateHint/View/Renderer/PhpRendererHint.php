@@ -13,23 +13,9 @@ use Zend\View\Resolver\ResolverInterface as Resolver;
 use Zend\View\Resolver\TemplatePathStack;
 use Zend\View\Variables;
 use Zend\Session\Container;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class PhpRendererHint implements \Zend\View\Renderer\RendererInterface, \Zend\View\Renderer\TreeRendererInterface
 {
-    /**
-     *
-     * @var ServiceManager
-     */
-    protected $serviceLocator;
-
-    public function __construct(ServiceLocatorInterface $locator)
-    {
-        $this->setHelperPluginManager($locator->get('ViewHelperManager'));
-        $this->setResolver($locator->get('ViewResolver'));
-        $this->init();
-    }
-
     /**
      * @var string Rendered content
      */
@@ -95,6 +81,21 @@ class PhpRendererHint implements \Zend\View\Renderer\RendererInterface, \Zend\Vi
      * @var array Cache for the plugin call
      */
     private $__pluginCache = array();
+
+    /**
+     * Constructor.
+     *
+     *
+     * @todo handle passing helper plugin manager, options
+     * @todo handle passing filter chain, options
+     * @todo handle passing variables object, options
+     * @todo handle passing resolver object, options
+     * @param array $config Configuration key-value pairs.
+     */
+    public function __construct($config = array())
+    {
+        $this->init();
+    }
 
     /**
      * Return the template engine object
